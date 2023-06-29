@@ -55,7 +55,7 @@ jobs:
             switches: -avz --delete
             path: dist/
             remote_path: /home/sv13075/annak.xsrv.jp/public_html/
-            remote_host: 	annak.xserver.jp
+            remote_host: 	sv13075.xserver.jp
             remote_user: 	phrz478073
             remote_port: 10022
             remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
