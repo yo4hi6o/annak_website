@@ -16,6 +16,8 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: 'stable'
+      - name: List directory
+        run: ls
       - name: Get dependencies and build web
         run: |
           cd annak_website/my_website/
