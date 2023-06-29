@@ -5,7 +5,6 @@ on:
     branches: 
       - main
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   flutter_build_web:
     runs-on: ubuntu-latest
@@ -17,14 +16,17 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: 'stable'
-      - run: flutter pub get
-      - run: flutter build web
+      - name: Get dependencies and build web
+        run: |
+          cd annak_website/my_website/
+          flutter pub get
+          flutter build web
       - name: ssh key generate
         run: echo "$SSH_PRIVATE_KEY" > key && chmod 600 key
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: rsync deploy
-        run: rsync -avuzr -e "ssh -i key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 10022" --delete build/web/ 	sv13075@162.43.116.76:/home/sv13075//annak.xsrv.jp/my_website/
+        run: rsync -avuzr -e "ssh -i key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 10022" --delete build/web/ sv13075@162.43.116.76:/home/sv13075//annak.xsrv.jp/my_website/
 
 
 # name: deploy to xserver
