@@ -20,7 +20,7 @@ jobs:
         run: ls
       - name: Get dependencies and build web
         run: |
-          cd annak_website/my_website/
+          cd my_website/
           flutter pub get
           flutter build web
       - name: ssh key generate
