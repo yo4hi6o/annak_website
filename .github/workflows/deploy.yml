@@ -1,65 +1,65 @@
-name: Flutter_Web_Deploy
-
-on:
-  push:
-    branches: 
-      - main
-
-jobs:
-  flutter_build_web:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
-      - uses: subosito/flutter-action@v1
-        with:
-          channel: 'stable'
-      - name: List directory
-        run: ls
-      - name: Get dependencies and build web
-        run: |
-          cd my_website/
-          flutter pub get
-          flutter build web
-      - name: ssh key generate
-        run: echo "$SSH_PRIVATE_KEY" > key && chmod 600 key
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: rsync deploy
-        run: rsync -avuzr -e "ssh -i key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 10022" --delete build/web/ annak@annak.xsrv.jp:/home/annak//annak.xsrv.jp
-
-
-# name: deploy to xserver
+# name: Flutter_Web_Deploy
 
 # on:
 #   push:
-#     branches:
+#     branches: 
 #       - main
 
 # jobs:
-#   deploy:
+#   flutter_build_web:
 #     runs-on: ubuntu-latest
+#     timeout-minutes: 5
 #     steps:
-#         - uses: actions/checkout@v2
-#         - uses: borales/actions-yarn@v2.3.0
-#           with:
-#             cmd: install
-#         - uses: borales/actions-yarn@v2.3.0
-#           with:
-#             cmd: build
-#         - name: ssh key generate
-#           run: echo "$SSH_PRIVATE_KEY" > key && chmod 600 key
-#           env:
-#             SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-#         - name: rsync deployments
-#           uses: burnett01/rsync-deployments@5.1
-#           with:
-#             switches: -avz --delete
-#             path: dist/
-#             remote_path: /home/sv13075/annak.xsrv.jp/public_html/
-#             remote_host: sv13075.xserver.jp
-#             remote_user: phrz478073
-#             remote_port: 10022
-#             remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+#       - uses: actions/checkout@v2
+#         with:
+#           fetch-depth: 1
+#       - uses: subosito/flutter-action@v1
+#         with:
+#           channel: 'stable'
+#       - name: List directory
+#         run: ls
+#       - name: Get dependencies and build web
+#         run: |
+#           cd my_website/
+#           flutter pub get
+#           flutter build web
+#       - name: ssh key generate
+#         run: echo "$SSH_PRIVATE_KEY" > key && chmod 600 key
+#         env:
+#           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+#       - name: rsync deploy
+#         run: rsync -avuzr -e "ssh -i key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 10022" --delete build/web/ annak@annak.xsrv.jp:/home/annak//annak.xsrv.jp
+
+
+name: deploy to xserver
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+        - uses: borales/actions-yarn@v2.3.0
+          with:
+            cmd: install
+        - uses: borales/actions-yarn@v2.3.0
+          with:
+            cmd: build
+        - name: ssh key generate
+          run: echo "$SSH_PRIVATE_KEY" > key && chmod 600 key
+          env:
+            SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        - name: rsync deployments
+          uses: burnett01/rsync-deployments@5.1
+          with:
+            switches: -avz --delete
+            path: dist/
+            remote_path: /home/sv13075/annak.xsrv.jp/public_html/
+            remote_host: annak.xserver.jp
+            remote_user: phrz478073
+            remote_port: 10022
+            remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
