@@ -48,7 +48,7 @@ jobs:
             cmd: install
         - uses: borales/actions-yarn@v4
           with:
-            cmd: build
+            cmd: build:prod
         - name: ssh key generate
           run: echo "$SSH_PRIVATE_KEY" > key && chmod 600 key
           env:
