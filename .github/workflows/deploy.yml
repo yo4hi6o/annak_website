@@ -24,14 +24,11 @@ jobs:
           flutter pub get
           flutter build web
       - name: ssh key generate
-        run: |
-          mkdir -p ~/.ssh/
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/annak_xserver_rsa
-          chmod 600 ~/.ssh/annak_xserver_rsa
+        run: echo "$SSH_PRIVATE_KEY" > key && chmod 600 key
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: rsync deploy
-        run: rsync -avuzr -e "ssh -i ~/.ssh/annak_xserver_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 10022 -vvv" --delete build/web/ annak@annak.xsrv.jp:/home/annak//annak.xsrv.jp
+        run: rsync -avuzr -e "ssh -i key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 10022" --delete build/web/ annak@annak.xsrv.jp:/home/annak//annak.xsrv.jp
 
 
 # name: deploy to xserver
