@@ -31,7 +31,7 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: rsync deploy
-        run: rsync -avuzr -e "ssh -i ~/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 10022 -vvv" --delete build/web/ annak@162.43.116.76:/home/annak//annak.xsrv.jp
+        run: rsync -avuzr -e "ssh -i ~/.ssh/annak_xserver_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 10022 -vvv" --delete build/web/ annak@162.43.116.76:/home/annak//annak.xsrv.jp
 
 
 # name: deploy to xserver
