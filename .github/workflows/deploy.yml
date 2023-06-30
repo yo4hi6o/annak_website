@@ -24,7 +24,7 @@ jobs:
           flutter pub get
           flutter build web
       - name: ssh key generate
-        run: echo "$SSH_PRIVATE_KEY" > key && chmod 666 key
+        run: echo "$SSH_PRIVATE_KEY" > key && chmod 600 key
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: rsync deploy
