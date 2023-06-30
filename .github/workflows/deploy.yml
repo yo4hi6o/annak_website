@@ -24,11 +24,44 @@ jobs:
           flutter pub get
           flutter build web
       - name: ssh key generate
-        run: echo "$SSH_PRIVATE_KEY" > key && chmod 600 key
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > key
+          chmod 600 key
       - name: rsync deploy
-        run: rsync -avuzr -e "ssh -i key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 10022" --delete build/web/ annak@162.43.116.76:/home/annak/annak.xsrv.jp/public_html/my_website/
+        run: rsync -avuzr -e "ssh -i key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 10022" --delete my_website/build/web/ annak@annak.xsrv.jp:/home/annak/annak.xsrv.jp/public_html/my_website/
+
+
+# name: Flutter_Web_Deploy
+
+# on:
+#   push:
+#     branches: 
+#       - main
+
+# jobs:
+#   flutter_build_web:
+#     runs-on: ubuntu-latest
+#     timeout-minutes: 5
+#     steps:
+#       - uses: actions/checkout@v2
+#         with:
+#           fetch-depth: 1
+#       - uses: subosito/flutter-action@v1
+#         with:
+#           channel: 'stable'
+#       - name: List directory
+#         run: ls
+#       - name: Get dependencies and build web
+#         run: |
+#           cd my_website/
+#           flutter pub get
+#           flutter build web
+#       - name: ssh key generate
+#         run: echo "$SSH_PRIVATE_KEY" > key && chmod 600 key
+#         env:
+#           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+#       - name: rsync deploy
+#         run: rsync -avuzr -e "ssh -i key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 10022" --delete build/web/ annak@162.43.116.76:/home/annak/annak.xsrv.jp/public_html/my_website/
 
 
 
