@@ -30,6 +30,7 @@ jobs:
       - name: rsync deploy
         run: rsync -avuzr -e "ssh -i key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 10022" --delete build/web/ annak@162.43.116.76:/home/annak//annak.xsrv.jp
 
+
 # name: deploy to xserver
 
 # on:
