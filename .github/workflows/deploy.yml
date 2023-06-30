@@ -29,4 +29,3 @@ jobs:
           chmod 600 key
       - name: rsync deploy
         run: rsync -avuzr -e "ssh -i key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 10022" --delete my_website/build/web/ annak@annak.xsrv.jp:/home/annak/annak.xsrv.jp/public_html/my_website/
-
