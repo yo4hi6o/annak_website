@@ -241,6 +241,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     _controller = VideoPlayerController.asset(widget.url)
       ..initialize().then((_) {
         setState(() {});
+        _controller?.play(); // ここで再生を開始します。
       });
   }
 
